@@ -1,7 +1,11 @@
 import express from "express";
-const router = express();
+import userRoutes from "./UserRoutes.js";
 
-// test route
+const router = express.Router();
+
+router.use("/api/users", userRoutes);
+
+// Rota de teste
 router.get("/", (req, res) => {
     res.send("API Working");
 });
