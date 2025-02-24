@@ -48,4 +48,9 @@ const register = async (req, res) => {
     });
 };
 
-export { register };
+// Sign user in
+const login = (req, res) => {
+    res.send("Login");
+};
+
+export { register, login };
