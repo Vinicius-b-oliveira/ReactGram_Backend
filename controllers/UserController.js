@@ -74,4 +74,11 @@ const login = async (req, res) => {
     });
 };
 
-export { register, login };
+// Get current logged in user
+const getCurrentUser = async (req, res) => {
+    const user = req.user;
+
+    res.status(200).json(user);
+};
+
+export { register, login, getCurrentUser };
