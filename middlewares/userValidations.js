@@ -32,7 +32,7 @@ const userCreateValidation = () => {
     ];
 };
 
-const loginValidation = () => {
+const userLoginValidation = () => {
     return [
         body("email")
             .isString()
@@ -43,4 +43,17 @@ const loginValidation = () => {
     ];
 };
 
-export { userCreateValidation, loginValidation };
+const userUpdateValidation = () => {
+    return [
+        body("name")
+            .optional()
+            .isLength({ min: 3 })
+            .withMessage("O nome precisa de pelo menos 3 caracteres."),
+        body("password")
+            .optional()
+            .isLength({ min: 5 })
+            .withMessage("A senha precisa ter no mínimo 5 caracteres "),
+    ];
+};
+
+export { userCreateValidation, userLoginValidation, userUpdateValidation };
