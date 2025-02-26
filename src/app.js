@@ -29,8 +29,6 @@ app.use(cors({ credentials: true, origin: process.env.CORS_ORIGIN }));
 // Upload directory
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
-// BD connection
-
 // routes
 app.use(router);
 
