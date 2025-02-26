@@ -4,6 +4,7 @@ import express from "express";
 import {
     deletePhoto,
     getAllPhotos,
+    getPhotoByid,
     getUserPhotos,
     insertPhoto,
 } from "../controllers/PhotoController.js";
@@ -27,5 +28,6 @@ router.post(
 router.delete("/:id", authGuard, deletePhoto);
 router.get("/", authGuard, getAllPhotos);
 router.get("/user/:id", authGuard, getUserPhotos);
+router.get("/:id", authGuard, getPhotoByid);
 
 export default router;

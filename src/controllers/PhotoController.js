@@ -80,9 +80,37 @@ const getAllPhotos = async (req, res) => {
 const getUserPhotos = async (req, res) => {
     const { id } = req.params;
 
-    const photos = await Photo.find({ userId: id }).sort([["createdAt", -1]]);
+    try {
+        const photos = await Photo.find({ userId: id }).sort([
+            ["createdAt", -1],
+        ]);
 
-    res.status(200).json(photos);
+        res.status(200).json(photos);
+    } catch {
+        res.status(404).json({
+            errors: ["Fotos não encontradas"],
+        });
+    }
 };
 
-export { insertPhoto, deletePhoto, getAllPhotos, getUserPhotos };
+// Get photo by id
+const getPhotoByid = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const photo = await Photo.findById(id);
+
+        if (!photo) {
+            res.status(404).json({ errors: ["Foto não encontrada."] });
+            return;
+        }
+
+        res.status(200).json(photo);
+    } catch {
+        res.status(404).json({
+            errors: ["Foto não encontradas"],
+        });
+    }
+};
+
+export { insertPhoto, deletePhoto, getAllPhotos, getUserPhotos, getPhotoByid };
