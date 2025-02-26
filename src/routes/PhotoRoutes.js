@@ -1,7 +1,7 @@
 import express from "express";
 
 // Controller
-import { insertPhoto } from "../controllers/PhotoController.js";
+import { deletePhoto, insertPhoto } from "../controllers/PhotoController.js";
 
 // Middlewares
 import { photoIsertValidation } from "../middlewares/photoValidation.js";
@@ -19,5 +19,6 @@ router.post(
     validate,
     insertPhoto
 );
+router.delete("/:id", authGuard, deletePhoto);
 
 export default router;
