@@ -7,10 +7,15 @@ import {
     getPhotoByid,
     getUserPhotos,
     insertPhoto,
+    updatePhoto,
 } from "../controllers/PhotoController.js";
 
 // Middlewares
-import { photoIsertValidation } from "../middlewares/photoValidation.js";
+import {
+    photoIsertValidation,
+    photoUpdateValidation,
+} from "../middlewares/photoValidation.js";
+
 import authGuard from "../middlewares/authGuard.js";
 import validate from "../middlewares/handleValidation.js";
 import imageUpload from "../middlewares/imageUpload.js";
@@ -29,5 +34,6 @@ router.delete("/:id", authGuard, deletePhoto);
 router.get("/", authGuard, getAllPhotos);
 router.get("/user/:id", authGuard, getUserPhotos);
 router.get("/:id", authGuard, getPhotoByid);
+router.put("/:id", authGuard, photoUpdateValidation(), validate, updatePhoto);
 
 export default router;

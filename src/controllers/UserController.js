@@ -116,7 +116,10 @@ const update = async (req, res) => {
 
     await user.save();
 
-    res.status(200).json(user);
+    const userResponse = user.toObject();
+    delete userResponse.password;
+
+    res.status(200).json(userResponse);
 };
 
 // Get user by id
