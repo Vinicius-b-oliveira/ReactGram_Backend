@@ -2,6 +2,7 @@ import express from "express";
 
 // Controller
 import {
+    commentPhoto,
     deletePhoto,
     getAllPhotos,
     getPhotoByid,
@@ -13,6 +14,7 @@ import {
 
 // Middlewares
 import {
+    photoCommentValidation,
     photoIsertValidation,
     photoUpdateValidation,
 } from "../middlewares/photoValidation.js";
@@ -23,6 +25,7 @@ import imageUpload from "../middlewares/imageUpload.js";
 
 // Routes
 const router = express.Router();
+
 router.post(
     "/",
     authGuard,
@@ -31,11 +34,20 @@ router.post(
     validate,
     insertPhoto
 );
+
 router.delete("/:id", authGuard, deletePhoto);
 router.get("/", authGuard, getAllPhotos);
 router.get("/user/:id", authGuard, getUserPhotos);
 router.get("/:id", authGuard, getPhotoByid);
 router.put("/:id", authGuard, photoUpdateValidation(), validate, updatePhoto);
 router.put("/like/:id", authGuard, likePhoto);
+
+router.put(
+    "/comment/:id",
+    authGuard,
+    photoCommentValidation(),
+    validate,
+    commentPhoto
+);
 
 export default router;
