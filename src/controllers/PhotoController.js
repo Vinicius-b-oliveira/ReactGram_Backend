@@ -151,6 +151,40 @@ const updatePhoto = async (req, res) => {
     }
 };
 
+const likePhoto = async (req, res) => {
+    const { id } = req.params;
+    const reqUser = req.user;
+
+    const photo = await Photo.findById(id);
+
+    if (!photo) {
+        res.status(404).json({ errors: ["Foto não encontrada"] });
+        return;
+    }
+
+    const userIndex = photo.likes.indexOf(reqUser._id);
+
+    if (userIndex !== -1) {
+        photo.likes.splice(userIndex, 1);
+        await photo.save();
+
+        res.status(200).json({
+            photoId: id,
+            userId: reqUser._id,
+            message: "Like removido com sucesso.",
+        });
+    } else {
+        photo.likes.push(reqUser._id);
+        await photo.save();
+
+        res.status(200).json({
+            photoId: id,
+            userId: reqUser._id,
+            message: "A foto foi curtida.",
+        });
+    }
+};
+
 export {
     insertPhoto,
     deletePhoto,
@@ -158,4 +192,5 @@ export {
     getUserPhotos,
     getPhotoByid,
     updatePhoto,
+    likePhoto,
 };
