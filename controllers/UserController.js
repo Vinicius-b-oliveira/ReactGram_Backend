@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import mongoose from "mongoose";
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -94,9 +93,7 @@ const update = async (req, res) => {
 
     const reqUser = req.user;
 
-    const user = await User.findById(
-        new mongoose.Types.ObjectId(reqUser._id)
-    ).select("-password");
+    const user = await User.findById(reqUser._id).select("-password");
 
     if (name) {
         user.name = name;
@@ -122,4 +119,23 @@ const update = async (req, res) => {
     res.status(200).json(user);
 };
 
-export { register, login, getCurrentUser, update };
+// Get user by id
+const getUserById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const user = await User.findById(id).select("-password");
+
+        // check if user exists
+        if (!user) {
+            res.status(404).json({ errors: ["Usuário não encontrado."] });
+            return;
+        }
+
+        res.status(200).json(user);
+    } catch {
+        res.status(404).json({ errors: ["Usuário não encontrado."] });
+    }
+};
+
+export { register, login, getCurrentUser, update, getUserById };
