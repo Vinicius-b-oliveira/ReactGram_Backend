@@ -9,6 +9,7 @@ import {
     getUserPhotos,
     insertPhoto,
     likePhoto,
+    searchPhotos,
     updatePhoto,
 } from "../controllers/PhotoController.js";
 
@@ -38,6 +39,8 @@ router.post(
 router.delete("/:id", authGuard, deletePhoto);
 router.get("/", authGuard, getAllPhotos);
 router.get("/user/:id", authGuard, getUserPhotos);
+router.get("/search", authGuard, searchPhotos);
+
 router.get("/:id", authGuard, getPhotoByid);
 router.put("/:id", authGuard, photoUpdateValidation(), validate, updatePhoto);
 router.put("/like/:id", authGuard, likePhoto);
