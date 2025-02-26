@@ -1,5 +1,4 @@
 import express from "express";
-const router = express.Router();
 
 // Controller
 import {
@@ -18,9 +17,12 @@ import {
     userLoginValidation,
     userUpdateValidation,
 } from "../middlewares/userValidations.js";
+
 import imageUpload from "../middlewares/imageUpload.js";
 
 // Routes
+const router = express.Router();
+
 router.post("/register", userCreateValidation(), validate, register);
 router.post("/login", userLoginValidation(), validate, login);
 router.get("/profile", authGuard, getCurrentUser);
