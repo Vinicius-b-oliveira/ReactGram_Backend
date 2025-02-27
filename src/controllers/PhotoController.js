@@ -1,7 +1,6 @@
 import Photo from "../models/Photo.js";
 import User from "../models/User.js";
 
-// Insert a photo, with an user related to it
 const insertPhoto = async (req, res) => {
     const { title } = req.body;
     const image = req.file.filename;
@@ -10,7 +9,6 @@ const insertPhoto = async (req, res) => {
 
     const user = await User.findById(reqUser._id);
 
-    // Create a photo
     const newPhoto = await Photo.create({
         image,
         title,
@@ -28,7 +26,6 @@ const insertPhoto = async (req, res) => {
     res.status(201).json(newPhoto);
 };
 
-// Remove a photo from DB
 const deletePhoto = async (req, res) => {
     const { id } = req.params;
 
@@ -37,7 +34,6 @@ const deletePhoto = async (req, res) => {
     try {
         const photo = await Photo.findById(id);
 
-        // Check if photo exists
         if (!photo) {
             res.status(422).json({
                 errors: ["Foto não encontrada"],
@@ -45,7 +41,6 @@ const deletePhoto = async (req, res) => {
             return;
         }
 
-        // Check if photo belongs to user
         if (!photo.userId.equals(reqUser._id)) {
             res.status(422).json({
                 errors: [
@@ -67,7 +62,6 @@ const deletePhoto = async (req, res) => {
     }
 };
 
-// Get all photos
 const getAllPhotos = async (req, res) => {
     const photos = await Photo.find({})
         .sort([["createdAt", -1]])
@@ -76,7 +70,6 @@ const getAllPhotos = async (req, res) => {
     return res.status(200).json(photos);
 };
 
-// Get user photos
 const getUserPhotos = async (req, res) => {
     const { id } = req.params;
 
@@ -93,7 +86,6 @@ const getUserPhotos = async (req, res) => {
     }
 };
 
-// Get photo by id
 const getPhotoByid = async (req, res) => {
     const { id } = req.params;
 
@@ -113,7 +105,6 @@ const getPhotoByid = async (req, res) => {
     }
 };
 
-// Update a photo
 const updatePhoto = async (req, res) => {
     const { id } = req.params;
     const { title } = req.body;
@@ -191,7 +182,6 @@ const likePhoto = async (req, res) => {
     }
 };
 
-// Comment function
 const commentPhoto = async (req, res) => {
     const { id } = req.params;
     const { comment } = req.body;
@@ -235,7 +225,6 @@ const commentPhoto = async (req, res) => {
     }
 };
 
-// Search photos by title
 const searchPhotos = async (req, res) => {
     const { q } = req.query;
 

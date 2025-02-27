@@ -21,19 +21,15 @@ const port = process.env.PORT;
 
 const app = express();
 
-const swaggerDocument = JSON.parse(readFileSync("./src/swagger.json", "utf-8"));
+const swaggerDocument = JSON.parse(readFileSync("./swagger.json", "utf-8"));
 
-// Config JSON and form data response
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Solve CORS
 app.use(cors({ credentials: true, origin: process.env.CORS_ORIGIN }));
 
-// Upload directory
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
-// Rota da documentação do Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // routes

@@ -1,7 +1,6 @@
 import multer from "multer";
 import path from "path";
 
-// Destination to store image
 const imageStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         let folder = "";
@@ -23,7 +22,6 @@ const imageUpload = multer({
     storage: imageStorage,
     fileFilter(req, file, cb) {
         if (!file.originalname.match(/.(png|jpg)$/i)) {
-            // upload only png and jpg formats
             return cb(new Error("Por favor, envie apenas png ou jpg!"));
         }
         cb(undefined, true);
