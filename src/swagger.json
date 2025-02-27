@@ -1,0 +1,818 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "React Gram API Documentation",
+        "version": "1.0.0",
+        "description": "Documentação da API do React Gram usando Swagger"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:5000",
+            "description": "Servidor local"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Usuários",
+            "description": "Operações relacionadas a usuários"
+        },
+        {
+            "name": "Fotos",
+            "description": "Operações relacionadas a fotos"
+        }
+    ],
+    "paths": {
+        "/api/users/register": {
+            "post": {
+                "tags": ["Usuários"],
+                "summary": "Registra um novo usuário",
+                "description": "Cria um novo usuário no sistema.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Nome do usuário."
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "E-mail do usuário."
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "Senha do usuário."
+                                    },
+                                    "confirmpassword": {
+                                        "type": "string",
+                                        "description": "Confirmação da senha."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuário registrado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "description": "ID do usuário."
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "description": "Token de autenticação."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação ou e-mail já cadastrado."
+                    }
+                }
+            }
+        },
+        "/api/users/login": {
+            "post": {
+                "tags": ["Usuários"],
+                "summary": "Autentica um usuário",
+                "description": "Realiza o login de um usuário no sistema.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "description": "E-mail do usuário."
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "Senha do usuário."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Login realizado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "description": "ID do usuário."
+                                        },
+                                        "profileImage": {
+                                            "type": "string",
+                                            "description": "URL da imagem de perfil."
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "description": "Token de autenticação."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado."
+                    },
+                    "422": {
+                        "description": "Senha inválida."
+                    }
+                }
+            }
+        },
+        "/api/users/profile": {
+            "get": {
+                "tags": ["Usuários"],
+                "summary": "Retorna o perfil do usuário autenticado",
+                "description": "Retorna as informações do usuário autenticado.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Perfil do usuário retornado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido ou ausente."
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "put": {
+                "tags": ["Usuários"],
+                "summary": "Atualiza o perfil do usuário",
+                "description": "Atualiza as informações do usuário autenticado.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Novo nome do usuário."
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "Nova senha do usuário."
+                                    },
+                                    "bio": {
+                                        "type": "string",
+                                        "description": "Nova biografia do usuário."
+                                    },
+                                    "profileImage": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Nova imagem de perfil."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Perfil do usuário atualizado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido ou ausente."
+                    },
+                    "422": {
+                        "description": "Erro de validação."
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "tags": ["Usuários"],
+                "summary": "Retorna um usuário pelo ID",
+                "description": "Retorna as informações de um usuário específico.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID do usuário."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuário retornado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado."
+                    }
+                }
+            }
+        },
+        "/api/photos": {
+            "post": {
+                "tags": ["Fotos"],
+                "summary": "Insere uma nova foto",
+                "description": "Adiciona uma nova foto ao sistema.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "description": "Título da foto."
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Arquivo de imagem."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Foto inserida com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Photo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido ou ausente."
+                    },
+                    "422": {
+                        "description": "Erro de validação."
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Fotos"],
+                "summary": "Retorna todas as fotos",
+                "description": "Retorna uma lista de todas as fotos do sistema.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de fotos retornada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Photo"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido ou ausente."
+                    }
+                }
+            }
+        },
+        "/api/photos/user/{id}": {
+            "get": {
+                "tags": ["Fotos"],
+                "summary": "Retorna as fotos de um usuário",
+                "description": "Retorna uma lista de fotos de um usuário específico.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID do usuário."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de fotos do usuário retornada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Photo"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido ou ausente."
+                    },
+                    "404": {
+                        "description": "Fotos não encontradas."
+                    }
+                }
+            }
+        },
+        "/api/photos/search": {
+            "get": {
+                "tags": ["Fotos"],
+                "summary": "Busca fotos por título",
+                "description": "Realiza uma busca de fotos com base em um termo.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "q",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Termo de busca."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resultados da busca retornados com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Photo"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido ou ausente."
+                    }
+                }
+            }
+        },
+        "/api/photos/{id}": {
+            "get": {
+                "tags": ["Fotos"],
+                "summary": "Retorna uma foto pelo ID",
+                "description": "Retorna as informações de uma foto específica.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID da foto."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Foto retornada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Photo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido ou ausente."
+                    },
+                    "404": {
+                        "description": "Foto não encontrada."
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Fotos"],
+                "summary": "Atualiza uma foto",
+                "description": "Atualiza as informações de uma foto específica.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID da foto."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "description": "Novo título da foto."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Foto atualizada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Photo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido ou ausente."
+                    },
+                    "404": {
+                        "description": "Foto não encontrada."
+                    },
+                    "422": {
+                        "description": "Erro de validação."
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Fotos"],
+                "summary": "Remove uma foto",
+                "description": "Remove uma foto do sistema.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID da foto."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Foto removida com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "ID da foto removida."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensagem de sucesso."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido ou ausente."
+                    },
+                    "404": {
+                        "description": "Foto não encontrada."
+                    }
+                }
+            }
+        },
+        "/api/photos/like/{id}": {
+            "put": {
+                "tags": ["Fotos"],
+                "summary": "Curtir uma foto",
+                "description": "Adiciona ou remove uma curtida de uma foto.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID da foto."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Curtida atualizada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "photoId": {
+                                            "type": "string",
+                                            "description": "ID da foto."
+                                        },
+                                        "userId": {
+                                            "type": "string",
+                                            "description": "ID do usuário que curtiu."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensagem de sucesso."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido ou ausente."
+                    },
+                    "404": {
+                        "description": "Foto não encontrada."
+                    }
+                }
+            }
+        },
+        "/api/photos/comment/{id}": {
+            "put": {
+                "tags": ["Fotos"],
+                "summary": "Comentar uma foto",
+                "description": "Adiciona um comentário a uma foto.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID da foto."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "comment": {
+                                        "type": "string",
+                                        "description": "Comentário a ser adicionado."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Comentário adicionado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "comment": {
+                                            "$ref": "#/components/schemas/Comment"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Mensagem de sucesso."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido ou ausente."
+                    },
+                    "404": {
+                        "description": "Foto não encontrada."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "description": "ID do usuário."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Nome do usuário."
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "E-mail do usuário."
+                    },
+                    "profileImage": {
+                        "type": "string",
+                        "description": "URL da imagem de perfil."
+                    },
+                    "bio": {
+                        "type": "string",
+                        "description": "Biografia do usuário."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data de criação do usuário."
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data da última atualização do usuário."
+                    }
+                }
+            },
+            "Photo": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "description": "ID da foto."
+                    },
+                    "image": {
+                        "type": "string",
+                        "description": "URL da imagem."
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Título da foto."
+                    },
+                    "likes": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Lista de IDs de usuários que curtiram a foto."
+                    },
+                    "comments": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Comment"
+                        },
+                        "description": "Lista de comentários da foto."
+                    },
+                    "userId": {
+                        "type": "string",
+                        "description": "ID do usuário que postou a foto."
+                    },
+                    "userName": {
+                        "type": "string",
+                        "description": "Nome do usuário que postou a foto."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data de criação da foto."
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data da última atualização da foto."
+                    }
+                }
+            },
+            "Comment": {
+                "type": "object",
+                "properties": {
+                    "comment": {
+                        "type": "string",
+                        "description": "Texto do comentário."
+                    },
+                    "userName": {
+                        "type": "string",
+                        "description": "Nome do usuário que comentou."
+                    },
+                    "userImage": {
+                        "type": "string",
+                        "description": "URL da imagem de perfil do usuário que comentou."
+                    },
+                    "userId": {
+                        "type": "string",
+                        "description": "ID do usuário que comentou."
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
+}
