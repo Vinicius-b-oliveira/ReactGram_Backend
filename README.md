@@ -67,7 +67,7 @@ Esse é o backend do ReactGram, uma aplicação fullstack inspirada no Instagram
 
 4. **Inicie o servidor**:
     ```bash
-    npm start
+    npm run server
     ```
 
 O servidor estará rodando em `http://localhost:5000`.
@@ -126,5 +126,3 @@ Contribuições são bem-vindas! Siga os passos abaixo:
 5. Abra um Pull Request.
 
 ---
-
-🚀 **Pronto para colaborar? Contribua e ajude a melhorar o ReactGram!**
