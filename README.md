@@ -102,8 +102,10 @@ reactgram-backend/
 │   ├── routes/          # Definição das rotas
 │   ├── app.js           # Ponto de entrada da aplicação
 │   └── swagger.json     # Documentação da API
-├── .env.example         # Exemplo de arquivo de variáveis de ambiente
-└── uploads/             # Armazenamento de imagens enviadas
+├── uploads/             # Armazenamento de imagens enviadas
+│   ├── photos/          # Imagens de postagens
+│   └── users/           # Fotos de perfil
+└── .env.example         # Exemplo de arquivo de variáveis de ambiente
 ```
 
 ## Contribuição

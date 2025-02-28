@@ -2,3 +2,5 @@
 /.env
 /uploads/photos/*
 /uploads/users/*
+!uploads/photos/1740593489375.jpg
+!uploads/users/1740514235098.jpg
