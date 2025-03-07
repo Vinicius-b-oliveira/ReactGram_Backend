@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cors({ credentials: true, origin: process.env.CORS_ORIGIN }));
 
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
