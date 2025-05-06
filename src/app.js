@@ -19,7 +19,7 @@ const swaggerDocument = JSON.parse(readFileSync("./src/swagger.json", "utf-8"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const allowedOrigins = ["https://seusite.vercel.app", "http://localhost:5173"];
+const allowedOrigins = [process.env.CORS_ORIGIN, "http://localhost:5173"];
 
 app.use(
     cors({
