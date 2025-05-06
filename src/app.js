@@ -19,7 +19,23 @@ const swaggerDocument = JSON.parse(readFileSync("./src/swagger.json", "utf-8"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(cors({ credentials: true, origin: process.env.CORS_ORIGIN }));
+const allowedOrigins =
+    process.env.NODE_ENV === "production"
+        ? [process.env.PROD_CORS_ORIGIN]
+        : ["http://localhost:5173"];
+
+app.use(
+    cors({
+        credentials: true,
+        origin: (origin, callback) => {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
+    })
+);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
