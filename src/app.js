@@ -19,7 +19,33 @@ const swaggerDocument = JSON.parse(readFileSync("./src/swagger.json", "utf-8"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(cors({ origin: "*" }));
+const allowedOrigins = [
+    "https://react-gram-10miajqz4-vinicius-buenos-projects-0dbf42c1.vercel.app",
+    "http://localhost:5173",
+    "https://react-gram-rouge.vercel.app",
+];
+
+app.use(
+    cors({
+        origin: (origin, callback) => {
+            if (allowedOrigins.includes(origin) || !origin) {
+                callback(null, true);
+            } else {
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+    })
+);
+
+// Adicione este middleware após o CORS
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Expose-Headers", "Authorization");
+    next();
+});
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
