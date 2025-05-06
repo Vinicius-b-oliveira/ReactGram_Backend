@@ -19,14 +19,10 @@ const swaggerDocument = JSON.parse(readFileSync("./src/swagger.json", "utf-8"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const allowedOrigins =
-    process.env.NODE_ENV === "production"
-        ? [process.env.PROD_CORS_ORIGIN]
-        : ["http://localhost:5173"];
+const allowedOrigins = ["https://seusite.vercel.app", "http://localhost:5173"];
 
 app.use(
     cors({
-        credentials: true,
         origin: (origin, callback) => {
             if (!origin || allowedOrigins.includes(origin)) {
                 callback(null, true);
@@ -34,6 +30,8 @@ app.use(
                 callback(new Error("Not allowed by CORS"));
             }
         },
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE"],
     })
 );
 
