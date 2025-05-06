@@ -9,6 +9,7 @@ const userSchema = new Schema(
         password: String,
         profileImage: String,
         bio: String,
+        profileImagePublicId: String,
     },
     {
         timestamps: true,

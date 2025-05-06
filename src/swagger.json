@@ -46,7 +46,7 @@
                                         "type": "string",
                                         "description": "Senha do usuário."
                                     },
-                                    "confirmpassword": {
+                                    "confirmPassword": {
                                         "type": "string",
                                         "description": "Confirmação da senha."
                                     }

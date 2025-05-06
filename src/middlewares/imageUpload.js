@@ -1,30 +1,44 @@
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
-import path from "path";
 
-const imageStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        let folder = "";
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-        if (req.baseUrl.includes("users")) {
-            folder = "users";
-        } else if (req.baseUrl.includes("photos")) {
-            folder = "photos";
-        }
+const getFolder = (req) => {
+    if (req.baseUrl.includes("users")) {
+        return "users";
+    } else if (req.baseUrl.includes("photos")) {
+        return "photos";
+    }
+    return "misc";
+};
 
-        cb(null, `uploads/${folder}`);
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: (req) => {
+        return {
+            folder: getFolder(req),
+            format: "jpg",
+            public_id: Date.now() + "-" + Math.round(Math.random() * 1e9),
+            allowed_formats: ["jpg", "png", "jpeg"],
+            transformation: [{ width: 800, height: 800, crop: "limit" }],
+        };
     },
 });
 
 const imageUpload = multer({
-    storage: imageStorage,
-    fileFilter(req, file, cb) {
-        if (!file.originalname.match(/.(png|jpg)$/i)) {
-            return cb(new Error("Por favor, envie apenas png ou jpg!"));
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        if (!file.originalname.match(/\.(png|jpg|jpeg)$/i)) {
+            return cb(new Error("Por favor, envie apenas png, jpg ou jpeg!"));
         }
-        cb(undefined, true);
+        cb(null, true);
     },
+    limits: { fileSize: 5 * 1024 * 1024 },
 });
+
 export default imageUpload;

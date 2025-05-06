@@ -5,11 +5,11 @@ const photoIsertValidation = () => {
         body("title")
             .not()
             .equals("undefined")
-            .withMessage("O titulo é obrigatório")
+            .withMessage("O título é obrigatório")
             .isString()
-            .withMessage("O titulo é obrigatório")
+            .withMessage("O título deve ser um texto")
             .isLength({ min: 3 })
-            .withMessage("O titulo precisa ter no mínimo 3 caracteres"),
+            .withMessage("O título precisa ter no mínimo 3 caracteres"),
         body("image").custom((value, { req }) => {
             if (!req.file) {
                 throw new Error("A imagem é obrigatória");
