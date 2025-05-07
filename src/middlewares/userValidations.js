@@ -29,6 +29,12 @@ const userCreateValidation = () => {
                 }
                 return true;
             }),
+        body("profileImage").custom((value, { req }) => {
+            if (req.file && req.file.size > 5 * 1024 * 1024) {
+                throw new Error("A imagem deve ter no máximo 5MB");
+            }
+            return true;
+        }),
     ];
 };
 

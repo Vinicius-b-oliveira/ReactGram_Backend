@@ -41,7 +41,6 @@ app.use(
     })
 );
 
-// Adicione este middleware após o CORS
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Credentials", "true");
     res.header("Access-Control-Expose-Headers", "Authorization");
@@ -50,7 +49,6 @@ app.use((req, res, next) => {
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// routes
 app.use(router);
 
 app.listen(port, () => {

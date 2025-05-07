@@ -4,14 +4,14 @@ import cloudinary from "../config/cloudinary.js";
 
 const insertPhoto = async (req, res) => {
     const { title } = req.body;
-    const image = req.file; // Agora recebe o objeto completo do Cloudinary
+    const image = req.file;
 
     const reqUser = req.user;
     const user = await User.findById(reqUser._id);
 
     const newPhoto = await Photo.create({
-        image: image.path, // Usa a URL do Cloudinary
-        imagePublicId: image.filename, // Salva o public_id para possível deleção
+        image: image.path,
+        imagePublicId: image.filename,
         title,
         userId: user._id,
         userName: user.name,
@@ -44,7 +44,6 @@ const deletePhoto = async (req, res) => {
             return;
         }
 
-        // Remove a imagem do Cloudinary
         if (photo.imagePublicId) {
             await cloudinary.uploader.destroy(photo.imagePublicId);
         }

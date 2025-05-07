@@ -84,9 +84,7 @@ const update = async (req, res) => {
     }
     if (bio) user.bio = bio;
 
-    // Atualização da imagem de perfil
     if (req.file) {
-        // Se já existia uma imagem, remove a antiga do Cloudinary
         if (user.profileImagePublicId) {
             await cloudinary.uploader.destroy(user.profileImagePublicId);
         }
