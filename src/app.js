@@ -22,7 +22,6 @@ app.use(express.urlencoded({ extended: false }));
 const allowedOrigins = [
     process.env.LOCAL_CORS_ORIGIN,
     process.env.PROD_CORS_ORIGIN,
-    process.env.DOCS_CORS_ORIGIN,
     "https://react-gram-rouge.vercel.app",
 ];
 
