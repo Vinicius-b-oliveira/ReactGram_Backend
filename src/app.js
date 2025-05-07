@@ -20,8 +20,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 const allowedOrigins = [
-    "https://react-gram-10miajqz4-vinicius-buenos-projects-0dbf42c1.vercel.app",
-    "http://localhost:5173",
+    process.env.LOCAL_CORS_ORIGIN,
+    process.env.PROD_CORS_ORIGIN,
+    process.env.DOCS_CORS_ORIGIN,
     "https://react-gram-rouge.vercel.app",
 ];
 

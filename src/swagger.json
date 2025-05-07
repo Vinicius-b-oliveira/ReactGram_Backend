@@ -9,6 +9,10 @@
         {
             "url": "http://localhost:5000",
             "description": "Servidor local"
+        },
+        {
+            "url": "https://reactgram-api-tvsx.onrender.com/",
+            "description": "Servidor de produção"
         }
     ],
     "tags": [
@@ -722,6 +726,10 @@
                         "type": "string",
                         "description": "URL da imagem de perfil."
                     },
+                    "profileImagePublicId": {
+                        "type": "string",
+                        "description": "Id publico da imagem de perfil"
+                    },
                     "bio": {
                         "type": "string",
                         "description": "Biografia do usuário."
@@ -748,6 +756,10 @@
                     "image": {
                         "type": "string",
                         "description": "URL da imagem."
+                    },
+                    "imagePublicId": {
+                        "type": "string",
+                        "description": "Id publico da imagem"
                     },
                     "title": {
                         "type": "string",
