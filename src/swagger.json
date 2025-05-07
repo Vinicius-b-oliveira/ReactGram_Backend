@@ -11,7 +11,7 @@
             "description": "Servidor local"
         },
         {
-            "url": "https://reactgram-api-tvsx.onrender.com/",
+            "url": "https://reactgram-api-tvsx.onrender.com/api",
             "description": "Servidor de produção"
         }
     ],
