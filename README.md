@@ -4,7 +4,6 @@ Esse é o backend do ReactGram, uma aplicação fullstack inspirada no Instagram
 
 ### Importante:
 
-- Atualmente a rota para a documentação com Swagger só funciona localmente!!
 - Devido a hospedagem gratuita, a resposta pode ser um pouco lenta
 
 ## Principais Funcionalidades
