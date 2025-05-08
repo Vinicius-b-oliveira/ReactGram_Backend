@@ -38,7 +38,28 @@ const imageUpload = multer({
         }
         cb(null, true);
     },
-    limits: { fileSize: 5 * 1024 * 1024 },
+    limits: {
+        fileSize: 5 * 1024 * 1024,
+        files: 1,
+    },
 });
 
-export default imageUpload;
+const handleImageUploadErrors = (err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        if (err.code === "LIMIT_FILE_SIZE") {
+            return res.status(400).json({
+                errors: ["A imagem deve ter no máximo 5MB"],
+            });
+        }
+        return res.status(400).json({
+            errors: [err.message],
+        });
+    } else if (err) {
+        return res.status(400).json({
+            errors: [err.message],
+        });
+    }
+    next();
+};
+
+export { imageUpload, handleImageUploadErrors };

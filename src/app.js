@@ -23,6 +23,7 @@ const allowedOrigins = [
     process.env.LOCAL_CORS_ORIGIN,
     process.env.PROD_CORS_ORIGIN,
     "https://react-gram-rouge.vercel.app",
+    "http://localhost:5000",
 ];
 
 app.use(

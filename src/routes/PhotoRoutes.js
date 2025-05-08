@@ -22,7 +22,10 @@ import {
 
 import authGuard from "../middlewares/authGuard.js";
 import validate from "../middlewares/handleValidation.js";
-import imageUpload from "../middlewares/imageUpload.js";
+import {
+    imageUpload,
+    handleImageUploadErrors,
+} from "../middlewares/imageUpload.js";
 
 // Routes
 const router = express.Router();
@@ -31,6 +34,7 @@ router.post(
     "/",
     authGuard,
     imageUpload.single("image"),
+    handleImageUploadErrors,
     photoIsertValidation(),
     validate,
     insertPhoto

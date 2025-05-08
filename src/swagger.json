@@ -9,6 +9,10 @@
         {
             "url": "http://localhost:5000",
             "description": "Servidor local"
+        },
+        {
+            "url": "https://react-gram-rouge.vercel.app",
+            "description": "Servidor de produção"
         }
     ],
     "tags": [

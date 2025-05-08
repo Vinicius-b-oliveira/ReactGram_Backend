@@ -19,7 +19,10 @@ import {
     userUpdateValidation,
 } from "../middlewares/userValidations.js";
 
-import imageUpload from "../middlewares/imageUpload.js";
+import {
+    imageUpload,
+    handleImageUploadErrors,
+} from "../middlewares/imageUpload.js";
 
 // Routes
 const router = express.Router();
@@ -31,6 +34,7 @@ router.put(
     "/",
     authGuard,
     imageUpload.single("profileImage"),
+    handleImageUploadErrors,
     userUpdateValidation(),
     validate,
     update
