@@ -24,6 +24,7 @@ const allowedOrigins = [
     process.env.PROD_CORS_ORIGIN,
     "https://react-gram-rouge.vercel.app",
     "http://localhost:5000",
+    "https://reactgram-api-tvsx.onrender.com",
 ];
 
 app.use(
