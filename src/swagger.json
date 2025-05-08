@@ -13,6 +13,10 @@
         {
             "url": "https://react-gram-rouge.vercel.app",
             "description": "Servidor de produção"
+        },
+        {
+            "url": "https://reactgram-api-tvsx.onrender.com",
+            "description": "Docs"
         }
     ],
     "tags": [
